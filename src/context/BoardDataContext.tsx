@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { cards, CardType } from "@/data/cards";
 import { columns, ColumnType } from "@/data/columns";
 
@@ -22,12 +22,39 @@ const BoardDataContext = createContext<BoardDataContextType | undefined>(
 export const BoardDataProvider: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
-    const [boardData, setBoardData] = useState<BoardsDataType[]>(
-        columns.map((column) => ({
+    const loadBoardDataFromLocalStorage = () => {
+        try {
+            const savedData = localStorage.getItem("boardData");
+            if (savedData) {
+                const parsedData = JSON.parse(savedData);
+                if (Array.isArray(parsedData)) {
+                    return parsedData;
+                }
+            }
+        } catch (error) {
+            console.error(
+                "Failed to parse board data from localStorage:",
+                error
+            );
+        }
+
+        return columns.map((column) => ({
             ...column,
             cards: cards.filter((card) => card.columnId === column.id),
-        }))
+        }));
+    };
+
+    const [boardData, setBoardData] = useState<BoardsDataType[]>(
+        loadBoardDataFromLocalStorage
     );
+
+    useEffect(() => {
+        try {
+            localStorage.setItem("boardData", JSON.stringify(boardData));
+        } catch (error) {
+            console.error("Failed to save board data to localStorage:", error);
+        }
+    }, [boardData]);
 
     const addCard = (columnId: string, card: CardType) => {
         setBoardData((prevBoardData) => {
