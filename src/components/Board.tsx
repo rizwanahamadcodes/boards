@@ -1,104 +1,103 @@
-import { cards, CardType } from "@/data/cards";
-import { columns, ColumnType } from "@/data/columns";
-import { formatDate } from "@/utils/datesUtil";
-import { FaRegClock } from "react-icons/fa";
+import { AddColumn } from "@/components/AddColumn";
+import { Column } from "@/components/Column";
+import { useBoardData } from "@/context/BoardDataContext";
+import { DragDropContext, Droppable, DropResult } from "@hello-pangea/dnd";
+import clsx from "clsx";
 
 type BoardProps = {
     className?: string;
 };
-type BoardsDataType = ColumnType & {
-    cards: CardType[];
-};
 
 export const Board = (props: BoardProps) => {
     const { className } = props;
-    const boardData: BoardsDataType[] = columns.map((column) => ({
-        ...column,
-        cards: cards.filter((card) => card.columnId === column.id),
-    }));
+    const { boardData, setBoardData } = useBoardData();
+
+    const handleDragEnd = (result: DropResult) => {
+        const { destination, source, draggableId } = result;
+
+        if (!destination) {
+            return;
+        }
+
+        if (
+            destination.droppableId === source.droppableId &&
+            destination.index === source.index
+        ) {
+            return;
+        }
+
+        const sourceColumnIndex = boardData.findIndex(
+            (column) => column.id === source.droppableId
+        );
+        const destinationColumnIndex = boardData.findIndex(
+            (column) => column.id === destination.droppableId
+        );
+
+        const sourceColumn = boardData[sourceColumnIndex];
+        const destinationColumn = boardData[destinationColumnIndex];
+
+        const draggedCard = sourceColumn.cards.find(
+            (card) => card.id === draggableId
+        );
+
+        if (sourceColumn === destinationColumn) {
+            const newCards = [...sourceColumn.cards];
+            newCards.splice(source.index, 1);
+            newCards.splice(destination.index, 0, draggedCard!);
+
+            const newBoardData = [...boardData];
+            newBoardData[sourceColumnIndex] = {
+                ...sourceColumn,
+                cards: newCards,
+            };
+
+            setBoardData(newBoardData);
+        } else {
+            const sourceCards = [...sourceColumn.cards];
+            sourceCards.splice(source.index, 1);
+
+            const destinationCards = [...destinationColumn.cards];
+            destinationCards.splice(destination.index, 0, draggedCard!);
+
+            const newBoardData = [...boardData];
+            newBoardData[sourceColumnIndex] = {
+                ...sourceColumn,
+                cards: sourceCards,
+            };
+            newBoardData[destinationColumnIndex] = {
+                ...destinationColumn,
+                cards: destinationCards,
+            };
+
+            setBoardData(newBoardData);
+        }
+    };
 
     return (
-        <div className="overflow-x-scroll pb-0.5 custom-scrollbar flex items-start gap-0.75">
-            {boardData.map((column) => (
-                <Column column={column} />
-            ))}
-            <AddColumn />
-        </div>
-    );
-};
-
-export type ColumnProps = {
-    children?: React.ReactNode;
-    column: BoardsDataType;
-};
-
-const Column = (props: ColumnProps) => {
-    const { children, column } = props;
-
-    return (
-        <div className="flex shrink-0 w-17 flex-col  rounded-1 bg-gray-50 shadow-sm">
-            <div className="px-1.25 pt-1 mb-0.75">
-                <h3 className="font-semibold text-gray-800 leading-1">
-                    {column.name}
-                </h3>
+        <DragDropContext onDragEnd={handleDragEnd}>
+            <div
+                className={clsx(
+                    "overflow-x-scroll pb-0.5 custom-scrollbar flex items-start gap-0.75 h-full",
+                    className
+                )}>
+                {boardData.map((column) => (
+                    <Droppable
+                        key={column.id}
+                        droppableId={column.id}
+                        direction="vertical">
+                        {(provided) => (
+                            <div
+                                ref={provided.innerRef}
+                                {...provided.droppableProps}
+                                className="flex-shrink-0 w-64 flex flex-col rounded-1 bg-gray-50 shadow-sm">
+                                <Column column={column} />
+                                {provided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                ))}
+                <AddColumn />
             </div>
-            <div className="grow px-0.75 pb-0.75 space-y-0.5">
-                {column.cards.map((card) => {
-                    return <Card card={card}></Card>;
-                })}
-                <AddCard />
-            </div>
-        </div>
-    );
-};
-
-type CardProps = {
-    card: CardType;
-};
-
-export const Card = (props: CardProps) => {
-    const { card } = props;
-
-    return (
-        <div className=" bg-white shadow p-0.5 rounded-0.5 flex flex-col gap-0.5">
-            <h4 className="font-medium text-gray-700">{card.title}</h4>
-            {card.dueDate ? (
-                <div className="flex">
-                    <div className="flex items-center gap-0.5">
-                        <FaRegClock className="text-gray-500" />
-                        <span className="text-gray-600 text-0.875">
-                            {formatDate(card.dueDate)}
-                        </span>
-                    </div>
-                </div>
-            ) : null}
-        </div>
-    );
-};
-
-type AddCardProps = {
-    className?: string;
-};
-
-export const AddCard = (props: AddCardProps) => {
-    const { className } = props;
-    return (
-        <div className="h-3 flex bg-transparent p-0.5 rounded-0.5 hover:bg-gray-100 cursor-pointer">
-            <p className="font-medium text-gray-500 flex items-center leading-1 gap-0.5">
-                <span className="text-1.75">+</span> Add Card
-            </p>
-        </div>
-    );
-};
-
-export type AddColumnProps = {};
-
-const AddColumn = (props: AddColumnProps) => {
-    return (
-        <div className="shrink-0 flex w-16 h-3 justify-center px-1  flex-col  rounded-1 bg-black/10 shadow-sm cursor-pointer">
-            <p className="font-medium text-gray-800 flex items-center leading-1 gap-0.5">
-                <span className="text-1.75">+</span> Add Card
-            </p>
-        </div>
+        </DragDropContext>
     );
 };

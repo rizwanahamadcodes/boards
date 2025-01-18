@@ -13,8 +13,12 @@ body {
     @apply h-full;
 }
 .custom-scrollbar::-webkit-scrollbar {
-    height: 6px;
+    @apply h-0.375 w-0.375;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply rounded-3 bg-black/30 hover:bg-black/50;
+    @apply rounded-3 bg-black/10 hover:bg-black/50 cursor-pointer;
+}
+
+.custom-scrollbar::-webkit-scrollbar-corner {
+    display: none;
 }

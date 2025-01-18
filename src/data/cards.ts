@@ -60,7 +60,7 @@ export const cards: CardType[] = [
         title: "Implement drag-and-drop feature",
         description:
             "Enable drag-and-drop functionality for moving cards between columns.",
-        columnId: "col-2",
+        columnId: "col-1",
         dueDate: "2025-01-30T12:00:00Z",
         labels: ["frontend", "UX"],
         priority: "high",
@@ -71,7 +71,7 @@ export const cards: CardType[] = [
         id: "card-6",
         title: "Integrate with backend",
         description: "Connect the frontend to the backend API.",
-        columnId: "col-2",
+        columnId: "col-1",
         dueDate: "2025-01-31T12:00:00Z",
         labels: ["integration", "API"],
         priority: "medium",
@@ -83,7 +83,7 @@ export const cards: CardType[] = [
         title: "Test drag-and-drop feature",
         description:
             "Perform unit and integration tests on the drag-and-drop functionality.",
-        columnId: "col-2",
+        columnId: "col-1",
         dueDate: "2025-02-02T12:00:00Z",
         labels: ["testing"],
         priority: "low",
@@ -95,7 +95,7 @@ export const cards: CardType[] = [
         title: "Deploy to staging environment",
         description:
             "Set up and deploy the application to the staging environment.",
-        columnId: "col-3",
+        columnId: "col-1",
         dueDate: null,
         labels: ["deployment"],
         priority: "medium",
@@ -106,7 +106,7 @@ export const cards: CardType[] = [
         id: "card-9",
         title: "Fix CSS bugs",
         description: "Resolve styling issues reported during testing.",
-        columnId: "col-3",
+        columnId: "col-1",
         dueDate: null,
         labels: ["frontend", "bugfix"],
         priority: "low",
@@ -118,7 +118,7 @@ export const cards: CardType[] = [
         title: "Prepare project documentation",
         description:
             "Document the project features, architecture, and setup instructions.",
-        columnId: "col-3",
+        columnId: "col-1",
         dueDate: "2025-02-05T12:00:00Z",
         labels: ["documentation"],
         priority: "medium",

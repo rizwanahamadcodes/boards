@@ -27,11 +27,4 @@ export const columns: ColumnType[] = [
         createdAt: "2025-01-01T10:00:00Z",
         updatedAt: "2025-01-01T10:00:00Z",
     },
-    {
-        id: "col-3",
-        name: "Done",
-        cardIds: ["card-8", "card-9", "card-10"],
-        createdAt: "2025-01-01T10:00:00Z",
-        updatedAt: "2025-01-01T10:00:00Z",
-    },
 ];

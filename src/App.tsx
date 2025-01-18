@@ -10,7 +10,7 @@ const App = () => {
                 alt="background"
                 className="z-[0] h-full w-full absolute top-0 left-0 object-cover"
             />
-            <Container className="relative my-1 z-[1]">
+            <Container className="h-full relative my-1 z-[1]">
                 <Board />
             </Container>
         </Section>
