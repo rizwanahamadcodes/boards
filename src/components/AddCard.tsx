@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useBoardData } from "@/context/BoardDataContext";
 import { v4 as uuidv4 } from "uuid";
+import { CardType } from "@/data/cards";
 
 export const AddCard = ({ columnId }: { columnId: string }) => {
     const { addCard } = useBoardData();
@@ -8,9 +9,17 @@ export const AddCard = ({ columnId }: { columnId: string }) => {
 
     const handleAddCard = () => {
         if (cardTitle.trim()) {
-            const newCard = {
+            const newCard: CardType = {
                 id: uuidv4(),
                 title: cardTitle,
+                description:
+                    "Initialize a GitHub repository for the Kanban project.",
+                columnId: "col-1",
+                dueDate: "2025-01-20T12:00:00Z",
+                labels: ["setup", "backend"],
+                priority: "high",
+                createdAt: "2025-01-01T11:00:00Z",
+                updatedAt: "2025-01-01T11:00:00Z",
             };
             addCard(columnId, newCard);
             setCardTitle("");

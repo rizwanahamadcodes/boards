@@ -1,5 +1,4 @@
 import { Card } from "@/components/Card";
-import { AddCard } from "@/components/AddCard";
 import { Draggable } from "@hello-pangea/dnd";
 
 export type ColumnProps = {
