@@ -96,7 +96,7 @@ export const Board = (props: BoardProps) => {
                         )}
                     </Droppable>
                 ))}
-                <AddColumn />
+                {/* <AddColumn /> */}
             </div>
         </DragDropContext>
     );

@@ -42,9 +42,9 @@ export const Column = (props: ColumnProps) => {
                     </Draggable>
                 ))}
             </div>
-            <div className="px-0.75 pb-0.75">
-                <AddCard />
-            </div>
+            {/* <div className="px-0.75 pb-0.75">
+                <AddCard columnId={column.id} />
+            </div> */}
         </div>
     );
 };
