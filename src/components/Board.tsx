@@ -1,4 +1,3 @@
-import { AddColumn } from "@/components/AddColumn";
 import { Column } from "@/components/Column";
 import { useBoardData } from "@/context/BoardDataContext";
 import { DragDropContext, Droppable, DropResult } from "@hello-pangea/dnd";

@@ -96,7 +96,7 @@ export const cards: CardType[] = [
         description:
             "Set up and deploy the application to the staging environment.",
         columnId: "col-3",
-        dueDate: null,
+        dueDate: "2025-01-20T12:00:00Z",
         labels: ["deployment"],
         priority: "medium",
         createdAt: "2025-01-03T10:00:00Z",
@@ -107,7 +107,7 @@ export const cards: CardType[] = [
         title: "Fix CSS bugs",
         description: "Resolve styling issues reported during testing.",
         columnId: "col-3",
-        dueDate: null,
+        dueDate: "2025-01-20T12:00:00Z",
         labels: ["frontend", "bugfix"],
         priority: "low",
         createdAt: "2025-01-03T11:00:00Z",
