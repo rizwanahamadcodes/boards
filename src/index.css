@@ -10,5 +10,11 @@ body {
 }
 
 .root {
-    @apply min-h-full;
+    @apply h-full;
+}
+.custom-scrollbar::-webkit-scrollbar {
+    height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply rounded-3 bg-black/30 hover:bg-black/50;
 }
